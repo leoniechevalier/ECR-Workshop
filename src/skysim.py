@@ -3,7 +3,7 @@
 Script to generate a simulated star catalogue, for stars around the Andromeda
 galaxy
 """
-
+#new comment here
 import math
 import random
 
