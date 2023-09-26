@@ -8,12 +8,13 @@ import math
 import random
 
 NSRC = 1_000
+ra = '01:42:44.3'
+dec = '40:16:09'
 
 def generate_positions(nsrc):
     # Determine Andromeda location in ra/dec degrees
     # from wikipedia
-    ra = '01:42:44.3'
-    dec = '40:16:09'
+    
 
     # convert to decimal degrees
 
@@ -32,6 +33,19 @@ def generate_positions(nsrc):
         decs.append(dec + random.uniform(-1,1))
     return ras, decs
 
+def crop_to_circle(ras,decs,ra,dec,radius):
+    ras_circular=[]
+    decs_circular=[]
+
+    for i in range(len(ras)):
+        #checks if ra and dec fall inside the circle
+        if (ras[i]-ra)**2 + (decs[i]-dec)**2 < radius**2:
+            ras_circular.append(ras[i])
+            decs_circular.append(decs[i])
+
+    return ras_circular, decs_circular
+
+
 def save_positions_to_file(ras, decs):
     # now write these to a csv file for use by my other program
     f = open('catalogue.csv','w')
@@ -42,6 +56,7 @@ def save_positions_to_file(ras, decs):
 
 def main():
     ras, decs = generate_positions(NSRC)
+    ras_circ, decs_circ = crop_to_circle(ras,decs,ra,dec,1)
     # several hundred intervening lines
     save_positions_to_file(ras, decs)
 
